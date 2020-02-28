@@ -44,4 +44,8 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.alphabet
   end
 
+  def test_it_generates_the_current_date
+    assert_equal "270220", @cipher.today 
+  end
+
 end
