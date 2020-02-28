@@ -1,5 +1,10 @@
 module Shiftable
 
+  def hash_it(array)
+    return "NOPE" if array.size != 4
+    %i(A B C D).zip(array).to_h
+  end
+
   def today
     Date.today.strftime("%d%m%y")
   end
@@ -9,10 +14,14 @@ module Shiftable
   end
 
   def key_generator(num)
-    keys = %i(A B C D)
     shfts = []
     num.chars.each_cons(2) {|key| shfts << key.join}
-    keys.zip(shfts).to_h
+    hash_it(shfts)
   end
+
+  def offset_generator(date)
+   offsets = (date.to_i ** 2).to_s[-4..-1].chars
+   hash_it(offsets)
+ end
 
 end

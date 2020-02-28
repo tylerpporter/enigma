@@ -53,6 +53,14 @@ class CipherTest < Minitest::Test
     assert_equal "02715", @cipher.random_num
   end
 
+  def test_it_can_create_a_hash_with_4_given_values
+    expected1 = ({A: 0, B: 0, C: 0, D: 0})
+    assert_equal expected1, @cipher.hash_it([0, 0, 0, 0])
+    expected2 = ({A: "dog", B: 12, C: ["4"], D: :fish})
+    assert_equal expected2, @cipher.hash_it(["dog", 12, ["4"], :fish])
+    assert_equal "NOPE", @cipher.hash_it(["dog", 12])
+  end
+
   def test_it_generates_keys
     expected = {
       A: "02",
@@ -61,6 +69,16 @@ class CipherTest < Minitest::Test
       D: "15"
     }
     assert_equal expected, @cipher.key_generator("02715")
+  end
+
+  def test_it_generates_offsets
+    expected = {
+      A: "1",
+      B: "0",
+      C: "2",
+      D: "5"
+    }
+    assert_equal expected, @cipher.offset_generator("040895")
   end
 
 end
