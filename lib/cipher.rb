@@ -13,7 +13,6 @@ class Cipher
     @alphabet.rotate(shift).join
   end
 
-
   def cipher(message, key = random_num, date = today, type = :encrypt)
     shifts = shift_generator(key_generator(key), offset_generator(date)).values
     message = message.downcase.chars

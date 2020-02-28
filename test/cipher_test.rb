@@ -105,4 +105,8 @@ class CipherTest < Minitest::Test
     assert_equal "keder ohulw", @cipher.cipher("hello world", "02715", "040895")
   end
 
+  def test_it_can_decrypt_a_message_with_given_key_and_date
+    assert_equal "hello world", @cipher.cipher("keder ohulw", "02715", "040895", :decrypt)
+  end
+
 end
