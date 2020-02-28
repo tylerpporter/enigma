@@ -44,8 +44,13 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.alphabet
   end
 
-  def test_it_generates_the_current_date
-    assert_equal "270220", @cipher.today 
+  def test_it_generates_the_current_date_as_string
+    assert_equal "270220", @cipher.today
+  end
+
+  def test_it_generates_random_0_padded_5_digit_number_as_string
+    @cipher.stubs(:rand).returns(2715)
+    assert_equal "02715", @cipher.random_num
   end
 
 end
