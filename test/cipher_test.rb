@@ -44,6 +44,11 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.alphabet
   end
 
+  def test_it_can_shift_and_join_the_alphabet
+    expected = "bcdefghijklmnopqrstuvwxyz a"
+    assert_equal expected, @cipher.shifted(1)
+  end
+
   def test_it_generates_the_date_as_string
     Date.stubs(:today).returns(Date.new(2020,2,27))
     assert_equal "270220", @cipher.today
