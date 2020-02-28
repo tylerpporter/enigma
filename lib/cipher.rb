@@ -13,20 +13,6 @@ class Cipher
     @alphabet.rotate(shift).join
   end
 
-  # def encrypt(message, key = random_num, date = today)
-  #   shifts = shift_generator(key_generator(key), offset_generator(date)).values
-  #   filtered_message = message.downcase.chars
-  #   encrypted = []
-  #   loop do shifts.each do |shift|
-  #       if !filtered_message[0].nil?
-  #         encrypted << filtered_message[0].tr(alphabet.join, shifted(shift))
-  #         filtered_message.shift
-  #       end
-  #     end
-  #     break if filtered_message.empty?
-  #   end
-  #   encrypted.join
-  # end
 
   def cipher(message, key = random_num, date = today, type = :encrypt)
     shifts = shift_generator(key_generator(key), offset_generator(date)).values
