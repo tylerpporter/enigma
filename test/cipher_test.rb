@@ -101,8 +101,13 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.shift_generator(keys, offsets)
   end
 
-  def test_it_can_encrypt_a_message
-    assert_equal "keder ohulw", @cipher.encrypt("hello world", "02715", "040895")
+  # def test_it_can_encrypt_a_message_with_given_key_and_date
+  #   skip
+  #   assert_equal "keder ohulw", @cipher.encrypt("hello world", "02715", "040895")
+  # end
+
+  def test_it_can_encrypt_a_message_with_given_key_and_date
+    assert_equal "keder ohulw", @cipher.cipher("hello world", "02715", "040895")
   end
 
 end
