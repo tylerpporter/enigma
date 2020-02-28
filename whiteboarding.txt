@@ -1,6 +1,15 @@
 Must have an Enigma class
   def encrypt(message, key = random_num, date = today)
     shifts = shift_generator(key_generator(key), offset_generator(date))
+    filtered_message = message.downcase.chars
+    encrypted = []
+    loop do shifts.each do |shift|
+      encrypted << filtered_message[0].tr(alphabet.join, alphabet.rotate(shift).join)
+      filtered_message.shift
+      end
+      break if filtered_message.empty?
+    end
+    encrypted.join
   end
     Returns a hash with keys
     :encryption
@@ -49,7 +58,7 @@ end
 
 The encryption should happen in the Cipher class. Enigma will have it's own
 'encrypt' method that calls 'super' to get the encrypted message and then will return
-the required hash. Same for 'decrypt' method. 
+the required hash. Same for 'decrypt' method.
 
 module Shiftable
 

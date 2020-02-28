@@ -44,7 +44,8 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.alphabet
   end
 
-  def test_it_generates_the_current_date_as_string
+  def test_it_generates_the_date_as_string
+    Date.stubs(:today).returns(Date.new(2020,2,27))
     assert_equal "270220", @cipher.today
   end
 
@@ -93,6 +94,10 @@ class CipherTest < Minitest::Test
       D: 20
     }
     assert_equal expected, @cipher.shift_generator(keys, offsets)
+  end
+
+  def test_it_can_encrypt_a_message
+    assert_equal "keder ohulw", @cipher.encrypt("hello world", "02715", "040895")
   end
 
 end
