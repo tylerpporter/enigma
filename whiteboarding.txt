@@ -1,0 +1,89 @@
+Must have an Enigma class
+  def encrypt(message, key = random_num, date = today)
+    shifts = shift_generator(key_generator(key), offset_generator(date))
+  end
+    Returns a hash with keys
+    :encryption
+    :key
+    :date (DDMMYY)
+
+  def decrypt(encrypted_message, key_used_for_encryption, date = today)
+    shifts = shift_generator(key_generator(key), offset_generator(date))
+  end
+    Returns a hash with keys
+    :decryption
+    :key
+    :date (DDMMYY)
+
+Must have runner file called encrypt.rb that will take 2 command line arguments
+  what it looks like in command line:
+  'ruby ./encrypt.rb ./txt/message.txt ./txt/encrypted.txt'
+  first argument is the txt file to read/cipher, second argument is the new
+  file it creates
+
+Must have runner file called decrypt.rb that will take 4 command line arguments
+  what it looks like in command line:
+  'ruby ./decrypt.rb ./txt/encrypted.txt ./txt/decrypted.txt 82648 240818
+  first argument is txt file do decrypt, second argument is the new file it
+  creates, third argument is the key used for decryption, fourth argument is
+  date used for decryption
+
+Structure
+
+Cipher superclass
+  include Shiftable
+Enigma < Cipher
+
+class Cipher
+  include Shiftable
+  def initialize
+    @alphabet = alphabet
+  end
+end
+
+class Enigma < Cipher
+  def initialize
+    super
+  end
+end
+
+The encryption should happen in the Cipher class. Enigma will have it's own
+'encrypt' method that calls 'super' to get the encrypted message and then will return
+the required hash. Same for 'decrypt' method. 
+
+module Shiftable
+
+  def alphabet
+    ("a".."z").to_a << " "
+  end
+
+  def self.keys
+    keys = %i(A B C D)
+  end
+
+  def today
+    Date.today.strftime("%d%m%y")
+  end
+
+  def random_num
+    rand(1000...99999).to_s.rjust(5, "0")
+  end
+
+  def key_generator(num)  (this will return a hash {A:"02", B:"27", C:"71", D:"15"})
+    shfts = []
+    num.chars.each_cons(2) {|key| shfts << key.join}
+    keys.zip(shfts).to_h
+  end
+
+  def offset_generator(date) (this will return a hash {A:"1", B:"0", C:"2", D:"5"})
+    offsets = (date.to_i ** 2).to_s[-4..-1].chars
+    keys.zip(offsets).to_h
+  end
+
+  def shift_generator(generated_keys, offsets) (this will return a hash {A:3, B:27, C:73, D:15})
+    generated_keys.merge(offsets) do |key, key_value, offset_value|
+      key_value.to_i + offset_value.to_i
+    end
+  end
+
+end
