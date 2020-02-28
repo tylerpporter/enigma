@@ -53,4 +53,14 @@ class CipherTest < Minitest::Test
     assert_equal "02715", @cipher.random_num
   end
 
+  def test_it_generates_keys
+    expected = {
+      A: "02",
+      B: "27",
+      C: "71",
+      D: "15"
+    }
+    assert_equal expected, @cipher.key_generator("02715")
+  end
+
 end
