@@ -61,7 +61,7 @@ class CipherTest < Minitest::Test
     assert_equal "NOPE", @cipher.hash_it(["dog", 12])
   end
 
-  def test_it_generates_keys
+  def test_it_can_generate_keys
     expected = {
       A: "02",
       B: "27",
@@ -69,9 +69,10 @@ class CipherTest < Minitest::Test
       D: "15"
     }
     assert_equal expected, @cipher.key_generator("02715")
+    assert_equal "NOPE", @cipher.key_generator("0125")
   end
 
-  def test_it_generates_offsets
+  def test_it_can_generate_offsets
     expected = {
       A: "1",
       B: "0",
@@ -79,6 +80,19 @@ class CipherTest < Minitest::Test
       D: "5"
     }
     assert_equal expected, @cipher.offset_generator("040895")
+    assert_equal "NOPE", @cipher.offset_generator("0578")
+  end
+
+  def test_it_can_generate_shifts
+    keys = @cipher.key_generator("02715")
+    offsets = @cipher.offset_generator("040895")
+    expected = {
+      A: 3,
+      B: 27,
+      C: 73,
+      D: 20
+    }
+    assert_equal expected, @cipher.shift_generator(keys, offsets)
   end
 
 end

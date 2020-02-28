@@ -20,8 +20,15 @@ module Shiftable
   end
 
   def offset_generator(date)
+   return "NOPE" if date.length != 6
    offsets = (date.to_i ** 2).to_s[-4..-1].chars
    hash_it(offsets)
+  end
+
+ def shift_generator(generated_keys, offsets)
+   generated_keys.merge(offsets) do |key, key_value, offset_value|
+     key_value.to_i + offset_value.to_i
+   end
  end
 
 end
