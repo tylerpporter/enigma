@@ -1,3 +1,5 @@
+require 'date'
+
 module Shiftable
 
   def hash_it(array)
