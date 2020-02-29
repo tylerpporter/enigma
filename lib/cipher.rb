@@ -10,6 +10,10 @@ class Cipher
     @new_message = []
   end
 
+  def clear
+    @new_message = []
+  end
+
   def shifted(shift)
     alphabet.rotate(shift).join
   end
@@ -31,10 +35,6 @@ class Cipher
     message = message.join if message != ""
     cipher(message, key, date, type) if message != ""
     @new_message.join
-  end
-
-  def clear
-    @new_message = []
   end
 
 end
