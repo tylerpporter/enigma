@@ -50,16 +50,6 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.shifted(1)
   end
 
-  def test_it_generates_the_date_as_string
-    Date.stubs(:today).returns(Date.new(2020,2,27))
-    assert_equal "270220", @cipher.today
-  end
-
-  def test_it_generates_random_0_padded_5_digit_number_as_string
-    @cipher.stubs(:rand).returns(2715)
-    assert_equal "02715", @cipher.random_num
-  end
-
   def test_it_can_create_a_hash_with_4_given_values
     expected1 = ({A: 0, B: 0, C: 0, D: 0})
     assert_equal expected1, @cipher.hash_it([0, 0, 0, 0])
