@@ -1,6 +1,7 @@
 require_relative 'shiftable.rb'
 
 class Cipher
+  CRACK = [27, 5, 14, 4]
   include Shiftable
   attr_reader :alphabet,
               :new_message
@@ -19,7 +20,19 @@ class Cipher
   end
 
   def chars_to_nums(message)
-    message.chars.map {|char| alphabet_hash[char]}
+    message.chars.inject([]) do |nums, char|
+      if alphabet_hash[char].nil?
+        nums << char
+      else
+        nums << alphabet_hash[char]
+      end
+      nums
+    end
+  end
+
+  def find_shift_amounts(encrypted)
+    alphabet_nums = chars_to_nums(encrypted).zip(CRACK)
+    alphabet_nums.map {|num| (num[0] - num[1]).abs}
   end
 
   def shifted(shift)
