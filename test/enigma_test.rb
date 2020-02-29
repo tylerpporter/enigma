@@ -111,4 +111,10 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.decrypt(encrypted[:encryption], "02715")
   end
 
+  def test_it_can_handle_special_characters
+    encrypted = @enigma.encrypt("hEll0...wo^!d", "02715", "040895")
+    decrypted = @enigma.decrypt(encrypted[:encryption], "02715", "040895")
+    assert_equal "hell0...wo^!d", decrypted[:decryption]
+  end
+
 end
