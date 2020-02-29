@@ -83,6 +83,11 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.alphabet_hash
   end
 
+  def test_it_can_convert_characters_to_numbers
+    assert_equal [1, 2, 3], @cipher.chars_to_nums("abc")
+    assert_equal [1, 27, 2], @cipher.chars_to_nums("a b")
+  end
+
   def test_it_can_create_a_hash_with_4_given_values
     expected1 = ({A: 0, B: 0, C: 0, D: 0})
     assert_equal expected1, @cipher.hash_it([0, 0, 0, 0])

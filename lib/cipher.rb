@@ -18,6 +18,10 @@ class Cipher
     alphabet.zip((1..27).to_a).to_h
   end
 
+  def chars_to_nums(message)
+    message.chars.map {|char| alphabet_hash[char]}
+  end
+
   def shifted(shift)
     alphabet.rotate(shift).join
   end
