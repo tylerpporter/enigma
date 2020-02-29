@@ -42,9 +42,16 @@ class CipherTest < Minitest::Test
      " "
     ]
     assert_equal expected, @cipher.alphabet
+    assert_equal [], @cipher.new_message
   end
 
-  def test_it_generates_the_current_date_as_string
+  def test_it_can_shift_and_join_the_alphabet
+    expected = "bcdefghijklmnopqrstuvwxyz a"
+    assert_equal expected, @cipher.shifted(1)
+  end
+
+  def test_it_generates_the_date_as_string
+    Date.stubs(:today).returns(Date.new(2020,2,27))
     assert_equal "270220", @cipher.today
   end
 
@@ -93,6 +100,27 @@ class CipherTest < Minitest::Test
       D: 20
     }
     assert_equal expected, @cipher.shift_generator(keys, offsets)
+  end
+
+  def test_it_can_rotate_characters_and_add_them_to_new_message
+    @cipher.rotate_chars(%w(h e l l o), 3)
+    assert_equal ["k"], @cipher.new_message
+    @cipher.rotate_chars(%w(e l l o), 3)
+    assert_equal ["k", "h"], @cipher.new_message
+  end
+
+  def test_it_can_encrypt_a_message_and_clear_it_out
+    assert_equal "keder ohulw", @cipher.cipher("hello world", "02715", "040895")
+    assert_equal ["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"], @cipher.new_message
+    @cipher.clear
+    assert_equal [], @cipher.new_message
+    assert_equal "vjqtbeaweqi!njsl", @cipher.cipher("hello world! end", "08304", "291018")
+  end
+
+  def test_it_can_decrypt_a_message
+    assert_equal "hello world", @cipher.cipher("keder ohulw", "02715", "040895", :decrypt)
+    @cipher.clear
+    assert_equal "hello world! end", @cipher.cipher("vjqtbeaweqi!njsl", "08304", "291018", :decrypt)
   end
 
 end
