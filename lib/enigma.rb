@@ -15,7 +15,9 @@ class Enigma < Cipher
   end
 
   def decrypt(message, key, date = today)
-    cipher(message, key, date, :decrypt)
+    decrypted = cipher(message, key, date, :decrypt)
+    clear
+    {decryption: decrypted, key: key, date: date}
   end
 
 end
