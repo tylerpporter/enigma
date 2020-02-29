@@ -14,6 +14,10 @@ class Cipher
     @new_message = []
   end
 
+  def alphabet_hash
+    alphabet.zip((1..27).to_a).to_h
+  end
+
   def shifted(shift)
     alphabet.rotate(shift).join
   end
