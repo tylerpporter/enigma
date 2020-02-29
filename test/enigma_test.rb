@@ -117,4 +117,5 @@ class EnigmaTest < Minitest::Test
     assert_equal "hell0...wo^!d", decrypted[:decryption]
   end
 
+
 end

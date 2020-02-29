@@ -30,9 +30,17 @@ class Cipher
     end
   end
 
-  def find_shift_amounts(encrypted)
-    alphabet_nums = chars_to_nums(encrypted).zip(CRACK)
+  def find_shift_amounts(encrypted_message)
+    alphabet_nums = chars_to_nums(encrypted_message).zip(CRACK)
     alphabet_nums.map {|num| (num[0] - num[1]).abs}
+  end
+
+  def shift_assignments(encrypted_message)
+    shifts = find_shift_amounts(encrypted_message[-4..-1])
+    hash_it(shifts) if encrypted_message.size % 4 == 0
+    hash_it(shifts.rotate(-1)) if encrypted_message.size % 4 == 1
+    hash_it(shifts.rotate(-2)) if encrypted_message.size % 4 == 2
+    hash_it(shifts.rotate(-3)) if encrypted_message.size % 4 == 3
   end
 
   def shifted(shift)

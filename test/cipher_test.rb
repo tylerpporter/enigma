@@ -157,4 +157,14 @@ class CipherTest < Minitest::Test
     assert_equal [26, 2, 3, 4], @cipher.find_shift_amounts("agqh")
   end
 
+  def test_it_can_determine_shift_assignments_of_encrypted_message
+    expected1 = {
+      A: 14,
+      B: 5,
+      C: 5,
+      D: 19
+    }
+    assert_equal expected1, @cipher.shift_assignments("vjqtbeaweqihssi")
+  end
+
 end
