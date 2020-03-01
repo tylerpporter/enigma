@@ -1,0 +1,5 @@
+ruby ./runners/encrypt.rb ./txt/message.txt ./txt/encrypted.txt
+
+ruby ./runners/decrypt.rb ./txt/encrypted.txt ./txt/decrypted.txt (key) (date)
+
+ruby ./runners/crack.rb ./txt/encrypted.txt ./txt/cracked.txt

@@ -1,4 +1,4 @@
 coverage
-whiteboarding.txt
-encrypted.txt
-decrypted.txt
+./txt/encrypted.txt
+./txt/decrypted.txt
+./txt/cracked.txt

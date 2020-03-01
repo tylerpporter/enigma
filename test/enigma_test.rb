@@ -6,12 +6,8 @@ class EnigmaTest < Minitest::Test
   def setup
     @enigma = Enigma.new
   end
-
-  def test_it_exists
-    assert_instance_of Enigma, @enigma
-  end
-
-  def test_it_has_attributs
+  
+  def test_it_has_constants
     expected = [
      "a",
      "b",
@@ -41,7 +37,44 @@ class EnigmaTest < Minitest::Test
      "z",
      " "
     ]
-    assert_equal expected, @enigma.alphabet
+    assert_equal expected, Enigma::ALPHABET
+    expected = {
+     "a"=>1,
+     "b"=>2,
+     "c"=>3,
+     "d"=>4,
+     "e"=>5,
+     "f"=>6,
+     "g"=>7,
+     "h"=>8,
+     "i"=>9,
+     "j"=>10,
+     "k"=>11,
+     "l"=>12,
+     "m"=>13,
+     "n"=>14,
+     "o"=>15,
+     "p"=>16,
+     "q"=>17,
+     "r"=>18,
+     "s"=>19,
+     "t"=>20,
+     "u"=>21,
+     "v"=>22,
+     "w"=>23,
+     "x"=>24,
+     "y"=>25,
+     "z"=>26,
+     " "=>27
+    }
+    assert_equal expected, Enigma::ALPHABET_HASH
+  end
+
+  def test_it_exists
+    assert_instance_of Enigma, @enigma
+  end
+
+  def test_it_has_attributs
     assert_equal [], @enigma.new_message
   end
 
@@ -56,18 +89,18 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_encrypt_a_message_with_given_key_and_date
-    expected1 = {
+    expected = {
       encryption: "keder ohulw",
       key: "02715",
       date: "040895"
     }
-    assert_equal expected1, @enigma.encrypt("hello world", "02715", "040895")
-    expected2 = {
+    assert_equal expected, @enigma.encrypt("hello world", "02715", "040895")
+    expected = {
       encryption: "vjqtbeaweqihssi",
       key: "08304",
       date: "291018"
       }
-      assert_equal expected2, @enigma.encrypt("hello world end", "08304", "291018")
+      assert_equal expected, @enigma.encrypt("hello world end", "08304", "291018")
   end
 
   def test_it_can_encrypt_a_message_with_given_key_and_no_date
@@ -118,15 +151,20 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_crack_an_encryption_no_key_no_date
-    Date.stubs(:today).returns(Date.new(1995,8,4))
     encrypted = @enigma.encrypt("hello world end", "08304", "291018")
     expected = {
       decryption: "hello world end",
       key: nil,
-      date: "040895"
+      date: nil
+    }
+    assert_equal expected, @enigma.crack(encrypted[:encryption])
+    encrypted = @enigma.encrypt("The Eagle Has Landed end")
+    expected = {
+      decryption: "the eagle has landed end",
+      key: nil,
+      date: nil
     }
     assert_equal expected, @enigma.crack(encrypted[:encryption])
   end
-
 
 end

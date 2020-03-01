@@ -7,11 +7,7 @@ class CipherTest < Minitest::Test
     @cipher = Cipher.new
   end
 
-  def test_it_exists
-    assert_instance_of Cipher, @cipher
-  end
-
-  def test_it_has_attributs
+  def test_it_has_constants
     expected = [
      "a",
      "b",
@@ -41,16 +37,7 @@ class CipherTest < Minitest::Test
      "z",
      " "
     ]
-    assert_equal expected, @cipher.alphabet
-    assert_equal [], @cipher.new_message
-  end
-
-  def test_it_can_shift_and_join_the_alphabet
-    expected = "bcdefghijklmnopqrstuvwxyz a"
-    assert_equal expected, @cipher.shifted(1)
-  end
-
-  def test_it_can_create_an_alphabet_hash
+    assert_equal expected, Cipher::ALPHABET
     expected = {
      "a"=>1,
      "b"=>2,
@@ -80,7 +67,20 @@ class CipherTest < Minitest::Test
      "z"=>26,
      " "=>27
     }
-    assert_equal expected, @cipher.alphabet_hash
+    assert_equal expected, Cipher::ALPHABET_HASH
+  end
+
+  def test_it_exists
+    assert_instance_of Cipher, @cipher
+  end
+
+  def test_it_has_attributs
+    assert_equal [], @cipher.new_message
+  end
+
+  def test_it_can_shift_and_join_the_alphabet
+    expected = "bcdefghijklmnopqrstuvwxyz a"
+    assert_equal expected, @cipher.shifted(1)
   end
 
   def test_it_can_convert_characters_to_numbers
@@ -139,20 +139,20 @@ class CipherTest < Minitest::Test
   end
 
   def test_it_can_create_a_new_message
-    assert_equal "khoor", @cipher.create(%w(h e l l o), [3, 3, 3, 3,], :encrypt)
+    assert_equal "khoor", @cipher.create_new_message(%w(h e l l o), [3, 3, 3, 3,], :encrypt)
   end
 
   def test_it_can_encrypt_a_message_and_clear_it_out
     assert_equal "keder ohulw", @cipher.cipher("hello world", "02715", "040895")
     assert_equal ["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"], @cipher.new_message
-    @cipher.clear
+    @cipher.clear_message
     assert_equal [], @cipher.new_message
     assert_equal "vjqtbeaweqi!njsl", @cipher.cipher("hello world! end", "08304", "291018")
   end
 
   def test_it_can_decrypt_a_message_with_date_and_key
     assert_equal "hello world", @cipher.cipher("keder ohulw", "02715", "040895", :decrypt)
-    @cipher.clear
+    @cipher.clear_message
     assert_equal "hello world! end", @cipher.cipher("vjqtbeaweqi!njsl", "08304", "291018", :decrypt)
   end
 

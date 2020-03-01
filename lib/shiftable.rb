@@ -1,6 +1,8 @@
 require 'date'
 
 module Shiftable
+  ALPHABET = ("a".."z").to_a << " "
+  ALPHABET_HASH = ALPHABET.zip((1..27).to_a).to_h
 
   def hash_it(array)
     return "NOPE" if array.size != 4
@@ -13,6 +15,10 @@ module Shiftable
 
   def random_num
     rand(1000...99999).to_s.rjust(5, "0")
+  end
+
+  def shifted(shift)
+    ALPHABET.rotate(shift).join
   end
 
   def key_generator(num)
