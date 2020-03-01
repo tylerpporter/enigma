@@ -20,15 +20,14 @@ class Cipher
   end
 
   def chars_to_nums(message)
-    # message.chars.inject([]) do |nums, char|
-    #   if alphabet_hash[char].nil?
-    #     nums << char
-    #   else
-    #     nums << alphabet_hash[char]
-    #   end
-    #   nums
-    # end
-    message.chars.map {|char| alphabet_hash[char]}
+    message.chars.inject([]) do |nums, char|
+      if alphabet_hash[char].nil?
+        nums << char
+      else
+        nums << alphabet_hash[char]
+      end
+      nums
+    end
   end
 
   def find_shift_amounts(encrypted_message)
@@ -54,6 +53,17 @@ class Cipher
       @new_message << message[0].tr(alphabet.join, shifted(shift))
       message.shift
     end
+  end
+
+  def create(message, shifts, type)
+    loop do
+      break if message[0].nil?
+      shifts.each do |shift|
+        break if message[0].nil?
+        rotate_chars(message, shift, type)
+      end
+    end
+    @new_message.join
   end
 
   def cipher(message, key, date, type = :encrypt)

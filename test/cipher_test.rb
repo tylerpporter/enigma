@@ -86,7 +86,7 @@ class CipherTest < Minitest::Test
   def test_it_can_convert_characters_to_numbers
     assert_equal [1, 2, 3], @cipher.chars_to_nums("abc")
     assert_equal [1, 27, 2], @cipher.chars_to_nums("a b")
-    # assert_equal [1, "!", 2], @cipher.chars_to_nums("a!b")
+    assert_equal [1, "!", 2], @cipher.chars_to_nums("a!b")
   end
 
   def test_it_can_create_a_hash_with_4_given_values
@@ -136,6 +136,10 @@ class CipherTest < Minitest::Test
     assert_equal ["k"], @cipher.new_message
     @cipher.rotate_chars(%w(e l l o), 3)
     assert_equal ["k", "h"], @cipher.new_message
+  end
+
+  def test_it_can_create_a_new_message
+    assert_equal "khoor", @cipher.create(%w(h e l l o), [3, 3, 3, 3,], :encrypt)
   end
 
   def test_it_can_encrypt_a_message_and_clear_it_out
