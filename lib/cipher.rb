@@ -73,14 +73,7 @@ class Cipher
       shifts = shift_generator(key_generator(key), offset_generator(date)).values
     end
     message = message.downcase.chars
-    loop do
-      break if message[0].nil?
-      shifts.each do |shift|
-        break if message[0].nil?
-        rotate_chars(message, shift, type)
-      end
-    end
-    @new_message.join
+    create(message, shifts, type)
   end
 
   # def de_cipher(message)
