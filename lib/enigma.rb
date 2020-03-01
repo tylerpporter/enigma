@@ -10,20 +10,20 @@ class Enigma < Cipher
 
   def encrypt(message, key = random_num, date = today)
     encrypted = cipher(message, key, date)
-    clear
+    clear_message
     {encryption: encrypted, key: key, date: date}
   end
 
   def decrypt(endcrypted_message, key, date = today)
     decrypted = cipher(endcrypted_message, key, date, :decrypt)
-    clear
+    clear_message
     {decryption: decrypted, key: key, date: date}
   end
 
   def crack(message)
     cracked = cipher(message, nil, nil, :decrypt)
-    clear
-    {decryption: cracked, key: nil, date: today}
+    clear_message
+    {decryption: cracked, key: nil, date: nil}
   end
 
 end

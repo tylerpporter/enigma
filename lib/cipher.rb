@@ -3,25 +3,19 @@ require_relative 'shiftable.rb'
 class Cipher
   CRACK = [27, 5, 14, 4]
   include Shiftable
-  attr_reader :alphabet,
-              :new_message
+  attr_reader :new_message
 
   def initialize
-    @alphabet = ("a".."z").to_a << " "
     @new_message = []
   end
 
-  def clear
+  def clear_message
     @new_message = []
-  end
-
-  def alphabet_hash
-    alphabet.zip((1..27).to_a).to_h
   end
 
   def chars_to_nums(message)
     message.chars.inject([]) do |nums, char|
-      alphabet_hash[char].nil? ? nums << char : nums << alphabet_hash[char]
+      ALPHABET_HASH[char].nil? ? nums << char : nums << ALPHABET_HASH[char]
       nums
     end
   end
@@ -33,25 +27,22 @@ class Cipher
 
   def shift_assignments(encrypted_message)
     shifts = find_shift_amounts(encrypted_message[-4..-1])
-    hash_it(shifts) if encrypted_message.size % 4 == 0
-    hash_it(shifts.rotate(-1)) if encrypted_message.size % 4 == 1
-    hash_it(shifts.rotate(-2)) if encrypted_message.size % 4 == 2
-    hash_it(shifts.rotate(-3)) if encrypted_message.size % 4 == 3
-  end
-
-  def shifted(shift)
-    alphabet.rotate(shift).join
+    shift_hash = hash_it(shifts) if encrypted_message.size % 4 == 0
+    shift_hash = hash_it(shifts.rotate(-1)) if encrypted_message.size % 4 == 1
+    shift_hash = hash_it(shifts.rotate(-2)) if encrypted_message.size % 4 == 2
+    shift_hash = hash_it(shifts.rotate(-3)) if encrypted_message.size % 4 == 3
+    shift_hash
   end
 
   def rotate_chars(message, shift, type = :encrypt)
     if !message[0].nil?
       shift = (-shift) if type == :decrypt
-      @new_message << message[0].tr(alphabet.join, shifted(shift))
+      @new_message << message[0].tr(ALPHABET.join, shifted(shift))
       message.shift
     end
   end
 
-  def create(message, shifts, type)
+  def create_new_message(message, shifts, type)
     loop do
       break if message[0].nil?
       shifts.each do |shift|
@@ -69,7 +60,7 @@ class Cipher
       shifts = shift_generator(key_generator(key), offset_generator(date)).values
     end
     message = message.downcase.chars
-    create(message, shifts, type)
+    create_new_message(message, shifts, type)
   end
 
 end
