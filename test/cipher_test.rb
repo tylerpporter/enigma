@@ -168,7 +168,7 @@ class CipherTest < Minitest::Test
   end
 
   def test_it_can_decrypt_a_message_no_date_no_key
-    assert_equal "hello world end", @cipher.de_cipher("vjqtbeaweqihssi")
+    assert_equal "hello world end", @cipher.cipher("vjqtbeaweqihssi", nil, nil, :decrypt)
   end
 
 end

@@ -57,27 +57,33 @@ class Cipher
   end
 
   def cipher(message, key, date, type = :encrypt)
-    shifts = shift_generator(key_generator(key), offset_generator(date)).values
-    message = message.downcase.chars
-    shifts.each do |shift|
-      rotate_chars(message, shift, type)
+    if key.nil? && date.nil?
+      shifts = shift_assignments(message).values
+    else
+      shifts = shift_generator(key_generator(key), offset_generator(date)).values
     end
-    message = message.join if message != ""
-    cipher(message, key, date, type) if message != ""
-    @new_message.join
-  end
-
-  def de_cipher(message)
-    shifts = shift_assignments(message).values
-    message = message.chars
+    message = message.downcase.chars
     loop do
       break if message[0].nil?
       shifts.each do |shift|
         break if message[0].nil?
-        rotate_chars(message, shift, :decrypt)
+        rotate_chars(message, shift, type)
       end
     end
     @new_message.join
   end
+
+  # def de_cipher(message)
+  #   shifts = shift_assignments(message).values
+  #   message = message.chars
+  #   loop do
+  #     break if message[0].nil?
+  #     shifts.each do |shift|
+  #       break if message[0].nil?
+  #       rotate_chars(message, shift, :decrypt)
+  #     end
+  #   end
+  #   @new_message.join
+  # end
 
 end
