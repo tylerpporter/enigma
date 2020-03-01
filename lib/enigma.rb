@@ -23,7 +23,7 @@ class Enigma < Cipher
   def crack(message)
     cracked = cipher(message, nil, nil, :decrypt)
     clear
-    {decryption: cracked, key: key, date: date}
+    {decryption: cracked, key: nil, date: nil}
   end
 
 end

@@ -76,17 +76,5 @@ class Cipher
     create(message, shifts, type)
   end
 
-  # def de_cipher(message)
-  #   shifts = shift_assignments(message).values
-  #   message = message.chars
-  #   loop do
-  #     break if message[0].nil?
-  #     shifts.each do |shift|
-  #       break if message[0].nil?
-  #       rotate_chars(message, shift, :decrypt)
-  #     end
-  #   end
-  #   @new_message.join
-  # end
 
 end
