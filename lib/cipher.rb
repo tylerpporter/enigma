@@ -21,11 +21,7 @@ class Cipher
 
   def chars_to_nums(message)
     message.chars.inject([]) do |nums, char|
-      if alphabet_hash[char].nil?
-        nums << char
-      else
-        nums << alphabet_hash[char]
-      end
+      alphabet_hash[char].nil? ? nums << char : nums << alphabet_hash[char]
       nums
     end
   end
@@ -75,6 +71,5 @@ class Cipher
     message = message.downcase.chars
     create(message, shifts, type)
   end
-
 
 end
