@@ -14,10 +14,16 @@ class Enigma < Cipher
     {encryption: encrypted, key: key, date: date}
   end
 
-  def decrypt(message, key, date = today)
-    decrypted = cipher(message, key, date, :decrypt)
+  def decrypt(endcrypted_message, key, date = today)
+    decrypted = cipher(endcrypted_message, key, date, :decrypt)
     clear
     {decryption: decrypted, key: key, date: date}
+  end
+
+  def crack(message)
+    cracked = cipher(message, nil, nil, :decrypt)
+    clear
+    {decryption: cracked, key: nil, date: today}
   end
 
 end

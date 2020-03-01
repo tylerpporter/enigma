@@ -50,6 +50,45 @@ class CipherTest < Minitest::Test
     assert_equal expected, @cipher.shifted(1)
   end
 
+  def test_it_can_create_an_alphabet_hash
+    expected = {
+     "a"=>1,
+     "b"=>2,
+     "c"=>3,
+     "d"=>4,
+     "e"=>5,
+     "f"=>6,
+     "g"=>7,
+     "h"=>8,
+     "i"=>9,
+     "j"=>10,
+     "k"=>11,
+     "l"=>12,
+     "m"=>13,
+     "n"=>14,
+     "o"=>15,
+     "p"=>16,
+     "q"=>17,
+     "r"=>18,
+     "s"=>19,
+     "t"=>20,
+     "u"=>21,
+     "v"=>22,
+     "w"=>23,
+     "x"=>24,
+     "y"=>25,
+     "z"=>26,
+     " "=>27
+    }
+    assert_equal expected, @cipher.alphabet_hash
+  end
+
+  def test_it_can_convert_characters_to_numbers
+    assert_equal [1, 2, 3], @cipher.chars_to_nums("abc")
+    assert_equal [1, 27, 2], @cipher.chars_to_nums("a b")
+    assert_equal [1, "!", 2], @cipher.chars_to_nums("a!b")
+  end
+
   def test_it_can_create_a_hash_with_4_given_values
     expected1 = ({A: 0, B: 0, C: 0, D: 0})
     assert_equal expected1, @cipher.hash_it([0, 0, 0, 0])
@@ -99,6 +138,10 @@ class CipherTest < Minitest::Test
     assert_equal ["k", "h"], @cipher.new_message
   end
 
+  def test_it_can_create_a_new_message
+    assert_equal "khoor", @cipher.create(%w(h e l l o), [3, 3, 3, 3,], :encrypt)
+  end
+
   def test_it_can_encrypt_a_message_and_clear_it_out
     assert_equal "keder ohulw", @cipher.cipher("hello world", "02715", "040895")
     assert_equal ["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"], @cipher.new_message
@@ -107,10 +150,29 @@ class CipherTest < Minitest::Test
     assert_equal "vjqtbeaweqi!njsl", @cipher.cipher("hello world! end", "08304", "291018")
   end
 
-  def test_it_can_decrypt_a_message
+  def test_it_can_decrypt_a_message_with_date_and_key
     assert_equal "hello world", @cipher.cipher("keder ohulw", "02715", "040895", :decrypt)
     @cipher.clear
     assert_equal "hello world! end", @cipher.cipher("vjqtbeaweqi!njsl", "08304", "291018", :decrypt)
+  end
+
+  def test_it_can_find_shift_amounts_of_encrypted_message
+    assert_equal [0, 0, 0, 0], @cipher.find_shift_amounts(" end")
+    assert_equal [-26, 2, 3, 4], @cipher.find_shift_amounts("agqh")
+  end
+
+  def test_it_can_determine_shift_assignments_of_encrypted_message
+    expected = {
+      A: 14,
+      B: 5,
+      C: 5,
+      D: -19
+    }
+    assert_equal expected, @cipher.shift_assignments("vjqtbeaweqihssi")
+  end
+
+  def test_it_can_decrypt_a_message_no_date_no_key
+    assert_equal "hello world end", @cipher.cipher("vjqtbeaweqihssi", nil, nil, :decrypt)
   end
 
 end
