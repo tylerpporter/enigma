@@ -1,4 +1,4 @@
-require_relative './enigma.rb'
+require './lib/enigma.rb'
 
 class Runner
 
@@ -21,7 +21,7 @@ class Runner
     file = File.open(ARGV[0], "r")
     message = file.read
     enigma = Enigma.new
-    @@decryption = enigma.decrypt(message, ARGV[2], ARGV[3])
+    @@decryption = enigma.decrypt(message.strip, ARGV[2], ARGV[3])
     file.close
   end
 
@@ -30,6 +30,21 @@ class Runner
     file.write(@@decryption[:decryption])
     file.close
     puts "Created '#{ARGV[1]}' with the key #{@@decryption[:key]} and date #{@@decryption[:date]}"
+  end
+
+  def self.crack
+    file = File.open(ARGV[0], "r")
+    message = file.read
+    enigma = Enigma.new
+    @@cracked = enigma.crack(message.strip)
+    file.close
+  end
+
+  def self.write_crack
+    file = File.open(ARGV[1], "w")
+    file.write(@@cracked[:decryption])
+    file.close
+    puts "Created '#{ARGV[1]}' without a key or date"
   end
 
 end
