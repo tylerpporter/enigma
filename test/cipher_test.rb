@@ -142,6 +142,12 @@ class CipherTest < Minitest::Test
     assert_equal "khoor", @cipher.create_new_message(%w(h e l l o), [3, 3, 3, 3,], :encrypt)
   end
 
+  def test_it_can_determine_which_shift_creation_method_to_use
+    assert_equal [14, 5, 5, -19], @cipher.which_shift_method("vjqtbeaweqihssi", nil, nil)
+    assert_equal [3, 27, 73, 20], @cipher.which_shift_method("keder ohulw", "02715", "040895")
+    assert_equal [3, 27, 73, 20], @cipher.which_shift_method("hello world", "02715", "040895")
+  end
+
   def test_it_can_encrypt_a_message_and_clear_it_out
     assert_equal "keder ohulw", @cipher.cipher("hello world", "02715", "040895")
     assert_equal ["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"], @cipher.new_message
